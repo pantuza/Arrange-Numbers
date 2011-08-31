@@ -1,0 +1,35 @@
+ARRANGE-NUMBERS
+
+NAME
+	Arrange-Numbers
+	
+DESCRIPTION
+
+	The classic game of arrange numbers implemented for android 
+	operational systems. It was written in Java using the Android SDK.
+
+	This implementation uses the BaseAdapter Class with GridViews, 
+	Buttons and XML templates.
+
+USAGE
+
+	 For a simple view test, fork this repository and run it on an ADT or
+	 android device running the Android 2.1 version (Eclair). It was the 
+	 development and testing version. 
+
+SEE ALSO
+
+	http://developer.android.com/index.html
+	http://code.google.com/android/
+
+AUTHOR
+	Written by Gustavo Pantuza
+
+REPORTING BUGS
+
+	Report Arrange-Numbers bugs to gustavopantuza@gmail.com
+
+--
+ O/
+/||
+ /\
