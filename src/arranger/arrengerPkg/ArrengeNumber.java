@@ -1,5 +1,6 @@
 package arranger.arrengerPkg;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -20,32 +21,42 @@ import android.widget.Toast;
 
 // Class extending the Activity Class from Android
 public class ArrengeNumber extends Activity {
+	
+	// Array List size
+	private Integer elementsLength = 9;
+	
 	// button Array that is the elements to arrange
-	private TextView[] elements = new TextView[9];
+	private ArrayList<TextView> elements= new ArrayList<TextView>();
 	// GridView where buttons are going to be draw
 	private GridView gridview;
-		
+		 
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate( savedInstanceState );
         // Retrieve the layout file
         setContentView(R.layout.easy);
         // instance of class MyOnClickListener that handle the events
         MyOnClickListener cl = new MyOnClickListener();
+        
         // Construct the button elements
-        for(Integer i=0; i<elements.length;i++){
-    		elements[i] = new Button(this);
-        	elements[i].setLayoutParams(new GridView.LayoutParams(150, 150));
-     	   	elements[i].setPadding(8, 8, 8, 8);
-     	   	elements[i].setText( ((Integer)(i+1)).toString() );
-     	   	elements[i].setTextSize(50); 
-     	   	elements[i].setId(i+1);
-     	   	elements[i].setOnClickListener( cl );
-     	   	// The last button is not visible because it is the switch button
-     	   	if( i == elements.length-1 )
-     	   		elements[i].setVisibility(4);
+        for( Integer i=0; i<elementsLength ;i++ ){
+    		Button newButton = new Button(this);
+        	// elements[i] = new Button(this);
+    		newButton.setLayoutParams(new GridView.LayoutParams(150, 150));
+    		newButton.setPadding(8, 8, 8, 8);
+    		newButton.setText( ((Integer)(i+1)).toString() );
+    		newButton.setTextSize(50); 
+    		newButton.setId(i+1);
+    		newButton.setOnClickListener( cl );
+    		newButton.setEnabled( true );
+    		// The last button is not visible because it is the switch button
+     	   	if( i == elementsLength-1 )
+     	   		newButton.setVisibility(4);
+     	   	
+     	   	elements.add( newButton );
         }
+        
         // shuffle the elements
         shuffle();
         // Find the GridView element on Layout
@@ -93,13 +104,13 @@ public class ArrengeNumber extends Activity {
      */
     private void testHeaderList( Integer vIndex ){
     	
-    	if( elements[vIndex+1].getId() == 9 ){
+    	if( elements.get( vIndex+1 ).getId() == 9 ){
     		switchPosition( vIndex, vIndex+1 );
     		
-    	}else if( elements[vIndex+3].getId() == 9 ){
+    	}else if( elements.get( vIndex+3 ).getId() == 9 ){
     		switchPosition( vIndex, vIndex+3 );
     	
-    	} else if(vIndex!=0 && elements[vIndex-1].getId() == 9 ){
+    	} else if(vIndex!=0 && elements.get(vIndex-1 ).getId() == 9 ){
     		switchPosition( vIndex, vIndex-1 );
     	}
     }
@@ -112,13 +123,14 @@ public class ArrengeNumber extends Activity {
      */
     private void testTailList( Integer vIndex ){
     
-    	if( elements[vIndex-1].getId() == 9 ){
+    	if( elements.get( vIndex-1 ).getId() == 9 ){
     		switchPosition( vIndex, vIndex-1 );
     		
-    	}else if( elements[vIndex-3].getId() == 9 ){
+    	}else if( elements.get( vIndex-3 ).getId() == 9 ){
     		switchPosition( vIndex, vIndex-3 );
     	
-    	}else if(vIndex!=elements.length-1 && elements[vIndex+1].getId() == 9 ){
+    	}else if(vIndex!=elementsLength-1 
+    			&& elements.get( vIndex+1 ).getId() == 9 ){
     		switchPosition( vIndex, vIndex+1 );
     	}
     }
@@ -130,8 +142,8 @@ public class ArrengeNumber extends Activity {
      * @return i : Integer value representing the index on array
      */
     private Integer indexOf( View v ){
-    	for( int i=0; i<elements.length; i++ )
-    		if( elements[i] == v )
+    	for( int i=0; i<elementsLength; i++ )
+    		if( elements.get( i ) == v )
     			return i;
     	return -1;
     }
@@ -143,9 +155,9 @@ public class ArrengeNumber extends Activity {
      */
     private Boolean isSorted( ){
     	
-    	for( int i=0; i < elements.length-1; i++ ){
+    	for( int i=0; i < elementsLength - 1; i++ ){
     		
-    		if( elements[i].getId() < elements[i+1].getId() )
+    		if( elements.get( i ).getId() < elements.get( i+1 ).getId() )
     			continue;
     		else
     			return false;
@@ -158,7 +170,7 @@ public class ArrengeNumber extends Activity {
      * @since : 31.08.2011
      */
     private void shuffle(){
-    	Collections.shuffle(Arrays.asList( elements ));
+    	Collections.shuffle( elements );
     }
     /*
      * Switch positions of two elements from the array
@@ -169,11 +181,11 @@ public class ArrengeNumber extends Activity {
      */
     private void switchPosition( Integer currentPos, Integer toChangePos){
 		
-    	TextView tmp = elements[ toChangePos ];
-		elements[ toChangePos ] = elements[ currentPos ];
-		elements[ currentPos ] = tmp;
+    	TextView tmp = elements.get( toChangePos );
+		elements.set( toChangePos, elements.get( currentPos ) );
+		elements.set( currentPos, tmp );
 		// Refresh the game view
-		gridview.invalidateViews(); 
+		gridview.invalidateViews();
     }
     /*
      * Click event handler class for the buttons in the array 'elements'
@@ -192,7 +204,7 @@ public class ArrengeNumber extends Activity {
    	 
     	 // Total number of things contained within the adapter
     	 public int getCount() {
-    		 return elements.length;
+    		 return elementsLength;
     	 }
 
     	  // Require for structure, not used on code
@@ -222,8 +234,17 @@ public class ArrengeNumber extends Activity {
     	 // make the view based on the adapter
     	 public View getView(int position, 
     	                           View convertView, ViewGroup parent) {
-    		 return elements[position];
+    		 return elements.get( position );
     	 }
 
     }
+	
+	class ArrayListMatrix extends ArrayList<TextView>{
+		
+		public ArrayListMatrix(int lines, int colums){
+			
+			super(); 
+		}
+		
+	}
 }
