@@ -72,6 +72,7 @@ public class ArrengeNumber extends Activity {
      * @param v : Object of View (button) clicked
      */
     private void arrange( View v ){
+
     	Integer vIndex = indexOf( v );
     	if( vIndex > -1 ){
     		// Treat the begin of the elements
@@ -104,14 +105,16 @@ public class ArrengeNumber extends Activity {
      */
     private void testHeaderList( Integer vIndex ){
     	
-    	if( elements.get( vIndex+1 ).getId() == 9 ){
-    		switchPosition( vIndex, vIndex+1 );
-    		
-    	}else if( elements.get( vIndex+3 ).getId() == 9 ){
+		if( elements.get( vIndex+1 ).getId() == 9 ){
+			if( vIndex != 2 && vIndex != 5 )
+				switchPosition( vIndex, vIndex+1 );
+        	
+    	} else if( elements.get( vIndex+3 ).getId() == 9 ){
     		switchPosition( vIndex, vIndex+3 );
     	
-    	} else if(vIndex!=0 && elements.get(vIndex-1 ).getId() == 9 ){
-    		switchPosition( vIndex, vIndex-1 );
+    	} else if(vIndex!=0 ){
+    		if( elements.get(vIndex-1 ).getId() == 9 && vIndex != 3 )
+    			switchPosition( vIndex, vIndex-1 );
     	}
     }
     /*
@@ -122,16 +125,17 @@ public class ArrengeNumber extends Activity {
      * @param vIndex : Index of the clicked button on elements  
      */
     private void testTailList( Integer vIndex ){
-    
+
     	if( elements.get( vIndex-1 ).getId() == 9 ){
-    		switchPosition( vIndex, vIndex-1 );
+    		if( vIndex != 6 && vIndex != 3 )	
+    			switchPosition( vIndex, vIndex-1 );
     		
     	}else if( elements.get( vIndex-3 ).getId() == 9 ){
     		switchPosition( vIndex, vIndex-3 );
     	
-    	}else if(vIndex!=elementsLength-1 
-    			&& elements.get( vIndex+1 ).getId() == 9 ){
-    		switchPosition( vIndex, vIndex+1 );
+    	}else if( vIndex != elementsLength-1 ){
+    		if( elements.get( vIndex+1 ).getId() == 9 && vIndex != 5 )
+    			switchPosition( vIndex, vIndex+1 );
     	}
     }
     /*
@@ -243,7 +247,7 @@ public class ArrengeNumber extends Activity {
 		
 		public ArrayListMatrix(int lines, int colums){
 			
-			super(); 
+			super();
 		}
 		
 	}
